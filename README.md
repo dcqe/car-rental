@@ -1,29 +1,11 @@
 # Car Rental Service Application
 
-## Introduction
-
-Welcome to the **Car Rental Service Application**! This application is designed to manage car rentals, customers, and rental transactions. It consists of a backend API built with Spring Boot and a frontend application built with Vue.js and Vuetify.
-
-This README provides instructions on how to build and run the application using **Docker** and **Docker Compose**. Using Docker simplifies the setup process by containerizing the application and its dependencies, ensuring a consistent environment across different systems.
-
----
-
-## Prerequisites
-
-* **Docker**: Installed on your machine
-* **Docker Compose**: Comes bundled with Docker Desktop on Windows and macOS. For Linux, you may need to install it separately.
-
----
 
 ## Build and Run with Docker (Preferred Method)
 
 ### Clone the Repository
 ```bash
 git clone https://github.com/dcqe/car-rental-project.git
-```
-
-### Navigate to the Project Directory
-```bash
 cd car-rental-project
 ```
 
@@ -32,25 +14,22 @@ cd car-rental-project
 1. **Build and Start the Containers**
 
    Run the following command to build the Docker images and start all services:
-```bash
-docker-compose up --build
-```
+
 ```bash
 docker-compose up --build -d
 ```
-* The `--build` flag forces a rebuild of the Docker images.
-* This command will:
-    * Build the Docker images for the backend, frontend, and MongoDB services.
-    * Start the containers and link them together using a Docker network.
 
 2. **Access the Application**
     * **Frontend Application**: Open your web browser and navigate to http://localhost:8081.
     * **Backend API**: Accessible at http://localhost:8080/api.
 
 3. **Adding Data (Optional)**
+
+   Execute the following script to reset the database and add initial values:
 ```bash
 node car-rental-frontend/db_scripts/init_database.js
 ```
+Execute the following script to just clear the database:
 ```bash
 node car-rental-frontend/db_scripts/wipe_database.js
 ```
@@ -74,47 +53,10 @@ docker-compose down
 
 ### Ports Used
 
-* **MongoDB**: Exposed on port `27017` (not typically accessed directly).
+* **MongoDB**: Exposed on port `27017`.
 * **Backend**: Exposed on port `8080`.
 * **Frontend**: Exposed on port `8081`.
 
-### Docker Compose File
-
-The `docker-compose.yml` file orchestrates the services required for the application.
-
-```yaml
-version: '3.8'
-
-services:
-  mongo:
-    image: mongo:latest
-    container_name: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-
-  backend:
-    build: ./car-rental-backend
-    container_name: car-rental-backend
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mongo
-    environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/car_rental_db
-
-  frontend:
-    build: ./car-rental-frontend
-    container_name: car-rental-frontend
-    ports:
-      - "8081:80"
-    depends_on:
-      - backend
-
-volumes:
-  mongo-data:
-```
 
 ---
 
@@ -146,7 +88,7 @@ backend:
 
 ---
 
-## Additional Docker Commands
+## Useful Docker Commands
 
 * **Running in Detached Mode**: To run the containers in the background:
 ```bash
@@ -169,35 +111,6 @@ docker-compose up backend
 
 ## Troubleshooting
 
-### Common Issues
-
-#### Containers Not Starting
-* **Symptom**: Containers fail to start or exit immediately.
-* **Solution**:
-    * Check the logs for errors:
-```bash
-docker-compose logs
-```
-* Ensure that all services are properly defined and that there are no syntax errors in the `docker-compose.yml` file.
-
-#### Port Conflicts
-* **Symptom**: Error messages about ports already being in use.
-* **Solution**:
-    * Modify the ports in the `docker-compose.yml` file.
-    * Example: Change `8080:8080` to `9090:8080` for the backend.
-
-#### MongoDB Connection Issues
-* **Symptom**: Backend cannot connect to MongoDB.
-* **Solution**:
-    * Ensure the `SPRING_DATA_MONGODB_URI` is correctly set to `mongodb://mongo:27017/car_rental_db`.
-    * The hostname `mongo` refers to the MongoDB service within the Docker network.
-
-#### Frontend API Errors
-* **Symptom**: Frontend cannot communicate with the backend API.
-* **Solution**:
-    * Ensure the backend is running and accessible at the expected URL.
-    * Verify the `API_URL` in `car-rental-frontend/src/services/api.js`.
-
 ### Clearing Docker Resources
 
 If you encounter issues that might be related to cached Docker resources, you can prune unused images, containers, and volumes:
@@ -213,11 +126,9 @@ docker image prune
 docker volume prune
 ```
 
-**Warning**: Be cautious when pruning resources as it can delete data you might need.
-
 ---
 
-## Optional: Running Without Docker
+## Alternative: Running Without Docker
 
 If you prefer to run the application without Docker, follow these steps.
 
@@ -294,46 +205,3 @@ npm run serve
 
 * **Frontend URL**: Open your web browser and navigate to http://localhost:8081.
 * **Backend API**: Accessible at http://localhost:8080/api.
-
----
-
-## Stopping the Applications
-
-* **Backend**: Press `Ctrl + C` in the terminal where the backend application is running.
-* **Frontend**: Press `Ctrl + C` in the terminal where the frontend application is running.
-
----
-
-## Additional Notes
-
-* **Ensure Simultaneous Execution**: Both the backend and frontend applications need to be running simultaneously to use the application fully.
-* **CORS Issues**: If you encounter any issues related to Cross-Origin Resource Sharing (CORS) when making API requests from the frontend to the backend, ensure that the backend controllers have the appropriate `@CrossOrigin` annotations or configure CORS globally.
-* **Dependency Management**:
-    * **Backend**: If you encounter issues with Maven dependencies, run `mvn clean install` to resolve them.
-    * **Frontend**: If you encounter issues with npm packages, run `npm install` to install missing packages.
-
----
-
-## Contact
-
-If you have any questions or need further assistance, please contact the project maintainer at your_email@example.com.
-
----
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-## Acknowledgments
-
-* Thanks to all contributors and open-source projects that made this application possible.
-
----
-
-## Conclusion
-
-Using Docker simplifies the setup and deployment process of the Car Rental Service Application. By following the instructions provided, you should be able to run the application seamlessly. If you prefer a traditional setup, instructions are also provided for running the application without Docker.
-
----
