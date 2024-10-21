@@ -2,7 +2,12 @@
   <v-app>
     <v-navigation-drawer app>
       <v-list dense>
-        <v-list-item :to="{ name: 'Dashboard' }" link>
+        <!-- Dashboard -->
+        <v-list-item
+            :to="{ name: 'Dashboard' }"
+            router
+            exact
+        >
           <v-list-item-icon>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-icon>
@@ -11,7 +16,12 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item :to="{ name: 'Customers' }" link>
+        <!-- Customers -->
+        <v-list-item
+            :to="{ name: 'Customers' }"
+            router
+            exact
+        >
           <v-list-item-icon>
             <v-icon>mdi-account-group</v-icon>
           </v-list-item-icon>
@@ -20,7 +30,12 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item :to="{ name: 'Cars' }" link>
+        <!-- Cars -->
+        <v-list-item
+            :to="{ name: 'Cars' }"
+            router
+            exact
+        >
           <v-list-item-icon>
             <v-icon>mdi-car</v-icon>
           </v-list-item-icon>
@@ -29,7 +44,12 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item :to="{ name: 'Rentals' }" link>
+        <!-- Rentals -->
+        <v-list-item
+            :to="{ name: 'Rentals' }"
+            router
+            exact
+        >
           <v-list-item-icon>
             <v-icon>mdi-car-key</v-icon>
           </v-list-item-icon>
