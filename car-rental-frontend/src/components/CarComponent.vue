@@ -9,6 +9,9 @@
           {{ item.available ? 'Yes' : 'No' }}
         </v-chip>
       </template>
+      <template v-slot:item.totalKilometersDriven="{ item }">
+        {{ formatKilometers(item.totalKilometersDriven) }}
+      </template>
       <template v-slot:item.actions="{ item }">
         <v-btn icon @click="editCar(item)">
           <v-icon>mdi-pencil</v-icon>
@@ -31,6 +34,14 @@
             <v-text-field v-model="car.model" label="Model" required></v-text-field>
             <v-text-field v-model="car.year" label="Year" type="number" required></v-text-field>
             <v-text-field v-model="car.licensePlate" label="License Plate" required></v-text-field>
+            <!-- Display Total Kilometers Driven (Read-Only) -->
+            <v-text-field
+                v-if="isEdit"
+                v-model="car.totalKilometersDriven"
+                label="Total Kilometers Driven"
+                type="number"
+                readonly
+            ></v-text-field>
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -40,7 +51,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
   </v-container>
 </template>
 
@@ -53,12 +63,13 @@ export default {
     return {
       cars: [],
       headers: [
-        { text: 'Make', value: 'make' },
-        { text: 'Model', value: 'model' },
-        { text: 'Year', value: 'year' },
-        { text: 'License Plate', value: 'licensePlate' },
-        { text: 'Available', value: 'available' },
-        { text: 'Actions', value: 'actions', sortable: false }
+        {text: 'Make', value: 'make'},
+        {text: 'Model', value: 'model'},
+        {text: 'Year', value: 'year'},
+        {text: 'License Plate', value: 'licensePlate'},
+        {text: 'Available', value: 'available'},
+        {text: 'Total Kilometers Driven', value: 'totalKilometersDriven'}, // New Header
+        {text: 'Actions', value: 'actions', sortable: false}
       ],
       dialog: false,
       car: {},
@@ -72,6 +83,8 @@ export default {
     fetchCars() {
       api.getCars().then(response => {
         this.cars = response.data;
+      }).catch(error => {
+        console.error('Error fetching cars:', error);
       });
     },
     openDialog() {
@@ -88,23 +101,34 @@ export default {
         api.updateCar(this.car.id, this.car).then(() => {
           this.fetchCars();
           this.closeDialog();
+        }).catch(error => {
+          console.error('Error updating car:', error);
         });
       } else {
         api.createCar(this.car).then(() => {
           this.fetchCars();
           this.closeDialog();
+        }).catch(error => {
+          console.error('Error creating car:', error);
         });
       }
     },
     editCar(car) {
-      this.car = { ...car };
+      this.car = {...car};
       this.isEdit = true;
       this.dialog = true;
     },
     deleteCar(id) {
-      api.deleteCar(id).then(() => {
-        this.fetchCars();
-      });
+      if (confirm('Are you sure you want to delete this car?')) {
+        api.deleteCar(id).then(() => {
+          this.fetchCars();
+        }).catch(error => {
+          console.error('Error deleting car:', error);
+        });
+      }
+    },
+    formatKilometers(km) {
+      return km.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2});
     }
   },
   computed: {
@@ -114,3 +138,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.headline {
+  font-weight: bold;
+}
+</style>

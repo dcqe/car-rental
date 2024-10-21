@@ -11,12 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/rentals")
-@CrossOrigin(origins = "*") // Adjust origins as needed for CORS policy
+@CrossOrigin(origins = "*") // For CORS policy, adjust as needed
 public class RentalController {
 
     @Autowired
@@ -78,14 +79,19 @@ public class RentalController {
                     if (rental.getRentalEndDate() != null) {
                         return ResponseEntity.badRequest().body("Rental already ended");
                     }
+                    double kilometersDriven = rentalDetails.getKilometersDriven();
+                    if (kilometersDriven < 0) {
+                        return ResponseEntity.badRequest().body("Kilometers driven cannot be negative");
+                    }
                     rental.setRentalEndDate(new Date());
-                    rental.setKilometersDriven(rentalDetails.getKilometersDriven());
+                    rental.setKilometersDriven(kilometersDriven);
                     rentalRepository.save(rental);
 
-                    // Update car availability
+                    // Update car availability and total kilometers driven
                     Car car = carRepository.findById(rental.getCarId()).orElse(null);
                     if (car != null) {
                         car.setAvailable(true);
+                        car.addKilometersDriven(kilometersDriven);
                         carRepository.save(car);
                     }
 
@@ -106,6 +112,14 @@ public class RentalController {
     public ResponseEntity<?> deleteRental(@PathVariable String id) {
         return rentalRepository.findById(id)
                 .map(rental -> {
+                    // If rental is ongoing, make the car available again
+                    if (rental.getRentalEndDate() == null) {
+                        Car car = carRepository.findById(rental.getCarId()).orElse(null);
+                        if (car != null) {
+                            car.setAvailable(true);
+                            carRepository.save(car);
+                        }
+                    }
                     rentalRepository.delete(rental);
                     return ResponseEntity.ok().build();
                 }).orElse(ResponseEntity.notFound().build());

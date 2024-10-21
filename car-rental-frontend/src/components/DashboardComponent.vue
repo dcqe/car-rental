@@ -11,6 +11,9 @@
       <template v-slot:item.rentalStartDate="{ item }">
         {{ formatDate(item.rentalStartDate) }}
       </template>
+      <template v-slot:item.totalKilometersDriven="{ item }">
+        {{ formatKilometers(item.car.totalKilometersDriven) }}
+      </template>
     </v-data-table>
   </v-container>
 </template>
@@ -26,7 +29,8 @@ export default {
       headers: [
         { text: 'Customer', value: 'customer' },
         { text: 'Car', value: 'car' },
-        { text: 'Start Date', value: 'rentalStartDate' }
+        { text: 'Start Date', value: 'rentalStartDate' },
+        { text: 'Total Kilometers Driven', value: 'totalKilometersDriven' } // New Header
       ]
     };
   },
@@ -52,6 +56,9 @@ export default {
     },
     formatDate(dateString) {
       return new Date(dateString).toLocaleString();
+    },
+    formatKilometers(km) {
+      return km.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
     }
   }
 };

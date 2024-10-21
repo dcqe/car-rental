@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface RentalRepository extends MongoRepository<Rental, String> {
     List<Rental> findByRentalEndDateIsNull();
+    List<Rental> findByCarId(String carId);
 }

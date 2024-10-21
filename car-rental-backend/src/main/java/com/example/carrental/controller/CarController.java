@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
 @RestController
@@ -33,8 +34,9 @@ public class CarController {
 
     // Create a new car
     @PostMapping
-    public Car createCar(@Valid @RequestBody Car car) {
-        return carRepository.save(car);
+    public ResponseEntity<Car> createCar(@Valid @RequestBody Car car) {
+        Car savedCar = carRepository.save(car);
+        return ResponseEntity.ok(savedCar);
     }
 
     // Update an existing car
@@ -47,6 +49,7 @@ public class CarController {
                     car.setModel(carDetails.getModel());
                     car.setYear(carDetails.getYear());
                     car.setLicensePlate(carDetails.getLicensePlate());
+                    // Note: totalKilometersDriven should not be updated here
                     Car updatedCar = carRepository.save(car);
                     return ResponseEntity.ok().body(updatedCar);
                 }).orElse(ResponseEntity.notFound().build());
@@ -60,5 +63,13 @@ public class CarController {
                     carRepository.delete(car);
                     return ResponseEntity.ok().build();
                 }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // Optional: Get total kilometers driven for a specific car
+    @GetMapping("/{id}/kilometers")
+    public ResponseEntity<Double> getTotalKilometers(@PathVariable String id) {
+        return carRepository.findById(id)
+                .map(car -> ResponseEntity.ok().body(car.getTotalKilometersDriven()))
+                .orElse(ResponseEntity.notFound().build());
     }
 }

@@ -23,6 +23,8 @@ public class Car {
 
     private boolean available = true;
 
+    private double totalKilometersDriven = 0.0; // New field
+
     // Constructors
     public Car() {}
 
@@ -32,57 +34,68 @@ public class Car {
         this.year = year;
         this.licensePlate = licensePlate;
         this.available = true;
+        this.totalKilometersDriven = 0.0;
     }
 
     // Getters and Setters
 
-    // Getters
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getMake() {
         return make;
     }
 
-    public String getModel() {
-        return model;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public String getLicensePlate() {
-        return licensePlate;
-    }
-
-    public boolean isAvailable() {
-        return available;
-    }
-
-    // Setters
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public void setMake(String make) {
         this.make = make;
+    }
+
+    public String getModel() {
+        return model;
     }
 
     public void setModel(String model) {
         this.model = model;
     }
 
+    public int getYear() {
+        return year;
+    }
+
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public String getLicensePlate() {
+        return licensePlate;
     }
 
     public void setLicensePlate(String licensePlate) {
         this.licensePlate = licensePlate;
     }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public double getTotalKilometersDriven() {
+        return totalKilometersDriven;
+    }
+
+    public void setTotalKilometersDriven(double totalKilometersDriven) {
+        this.totalKilometersDriven = totalKilometersDriven;
+    }
+
+    public void addKilometersDriven(double kilometers) {
+        this.totalKilometersDriven += kilometers;
     }
 }
