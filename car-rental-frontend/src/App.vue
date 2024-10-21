@@ -62,6 +62,11 @@
 
     <v-app-bar app>
       <v-toolbar-title>Car Rental Service</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-switch
+          v-model="isDark"
+          :label="`Switch to ${isDark ? 'Light' : 'Dark'} Mode`"
+      ></v-switch>
     </v-app-bar>
 
     <v-main>
@@ -73,6 +78,20 @@
 <script>
 export default {
   name: 'App',
+  data() {
+    return {
+      isDark: localStorage.getItem('isDark') === 'true' || false,
+    };
+  },
+  watch: {
+    isDark(val) {
+      this.$vuetify.theme.dark = val;
+      localStorage.setItem('isDark', val);
+    },
+  },
+  created() {
+    this.$vuetify.theme.dark = this.isDark;
+  },
 };
 </script>
 

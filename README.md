@@ -15,7 +15,7 @@ This README provides instructions on how to build and run the application using 
 
 ---
 
-## Build and Run Instructions (Preferred Method)
+## Build and Run with Docker (Preferred Method)
 
 ### Clone the Repository
 ```bash
@@ -35,6 +35,9 @@ cd car-rental-project
 ```bash
 docker-compose up --build
 ```
+```bash
+docker-compose up --build -d
+```
 * The `--build` flag forces a rebuild of the Docker images.
 * This command will:
     * Build the Docker images for the backend, frontend, and MongoDB services.
@@ -44,7 +47,15 @@ docker-compose up --build
     * **Frontend Application**: Open your web browser and navigate to http://localhost:8081.
     * **Backend API**: Accessible at http://localhost:8080/api.
 
-3. **Stopping the Application**
+3. **Adding Data (Optional)**
+```bash
+node car-rental-frontend/db_scripts/init_database.js
+```
+```bash
+node car-rental-frontend/db_scripts/wipe_database.js
+```
+
+4. **Stopping the Application**
 
    To stop the running containers, press `Ctrl + C` in the terminal where `docker-compose` is running, or run:
 ```bash
