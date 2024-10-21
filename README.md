@@ -34,6 +34,11 @@ Execute the following script to just clear the database:
 node car-rental-frontend/db_scripts/wipe_database.js
 ```
 
+Execute the following script to set up additonal indices:
+```bash
+mongosh -f car-rental-backend/create_indexes.js
+```
+
 4. **Stopping the Application**
 
    To stop the running containers, press `Ctrl + C` in the terminal where `docker-compose` is running, or run:
