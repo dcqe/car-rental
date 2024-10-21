@@ -1,0 +1,110 @@
+setup-car-rental-project.ps1
+
+
+#-------------------------------------------------
+# General
+#-------------------------------------------------
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+*.swo
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+._*
+
+#---------------------------------------------
+# Backend (Java/Spring Boot) .gitignore entries
+#---------------------------------------------
+
+# Maven target directory
+car-rental-backend/target/
+
+# Compiled class files
+*.class
+
+# Maven and Gradle
+car-rental-backend/.mvn/
+car-rental-backend/.gradle/
+car-rental-backend/build/
+
+# IDE files
+car-rental-backend/.classpath
+car-rental-backend/.project
+car-rental-backend/.settings/
+car-rental-backend/.idea/
+car-rental-backend/*.iml
+car-rental-backend/*.ipr
+car-rental-backend/*.iws
+
+# STS (Spring Tool Suite)
+car-rental-backend/.springBeans/
+
+# NetBeans
+car-rental-backend/nbproject/
+car-rental-backend/nbproject/private/
+
+# Eclipse configuration
+car-rental-backend/.factorypath
+
+# Logs
+car-rental-backend/logs/
+car-rental-backend/*.log
+
+# Environment variable files
+car-rental-backend/*.env
+
+#---------------------------------------------
+# Frontend (Vue.js) .gitignore entries
+#---------------------------------------------
+
+# Node modules
+car-rental-frontend/node_modules/
+
+# Production build files
+car-rental-frontend/dist/
+car-rental-frontend/build/
+
+# Local environment variables
+car-rental-frontend/.env
+car-rental-frontend/.env.local
+car-rental-frontend/.env.*.local
+
+# Log files
+car-rental-frontend/npm-debug.log*
+car-rental-frontend/yarn-debug.log*
+car-rental-frontend/yarn-error.log*
+
+# IDE files
+car-rental-frontend/.idea/
+car-rental-frontend/*.iml
+car-rental-frontend/.vscode/
+car-rental-frontend/.eslintcache
+
+# Mac system files
+car-rental-frontend/.DS_Store
+
+#---------------------------------------------
+# Docker
+#---------------------------------------------
+
+# Docker files (optional)
+docker-compose.override.yml
+docker-compose.local.yml
+
+#---------------------------------------------
+# Other files
+#---------------------------------------------
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
